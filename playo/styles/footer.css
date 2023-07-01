@@ -61,7 +61,7 @@ a{
     height:27%;
     display: flex;
     justify-content: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     margin-left: 15%;
     margin-top: 3%;
 }
