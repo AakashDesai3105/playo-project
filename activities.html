@@ -541,13 +541,42 @@ var  city_names=['Adilabad',
       city_names.sort((a,b)=>a-b);
       //console.log(city_names)
 
-     for(var i=0; i<city_names.length; i++){
-        var showcities=document.querySelector("#citynames");
+city_names.map(function(e,i){
+	
+	var showcities=document.querySelector("#citynames");
      var p=document.createElement("p");
-     var line=document.createElement("hr");
-         p.innerHTML=city_names[i];
-         showcities.append(p,line);
-     }
+	 var line=document.createElement("hr");
+         p.innerText=e;
+		 p.addEventListener("click",()=>{
+			cityName(e);
+	})
+	showcities.append(p,line);
+})
+
+      function cityName(e){
+         document.getElementById("typesearch").value=e;
+		 let data = {
+      city: document.getElementById("typesearch").value,
+     };
+		 let location = localStorage.setItem("name", JSON.stringify(data));
+		 console.log(data.city);
+		 //console.log(e);
+         window.location.href = "explore.html";
+			}
+    
+//debounce feature start here
+let inputTag = document.getElementById("typesearch")
+inputTag.addEventListener("keyup",()=>{
+	let id;
+let value = document.getElementById("typesearch").value
+if(id){
+	console.log("done");
+	clearTimeout(id);
+}
+id=setTimeout(()=>{
+console.log(value);
+},2000)
+})
 
 	//  popupstartshere-----------------------
 // var modal = document.getElementById("myModal");
@@ -635,7 +664,6 @@ var  city_names=['Adilabad',
 //     window.location.href = "explore.html";
 //   }
 
-
 document.querySelector("#searchbtn").addEventListener("click",()=>{
     let data = {
       city: document.getElementById("typesearch").value,
@@ -646,11 +674,17 @@ document.querySelector("#searchbtn").addEventListener("click",()=>{
     window.location.href = "explore.html";
 })
 
-
-
-
-
-
+//for(var i=0; i<city_names.length; i++){
+    //     var showcities=document.querySelector("#citynames");
+    //  var p=document.createElement("p");
+	 
+    //  var line=document.createElement("hr");
+    //      p.innerHTML=city_names[i];
+	// 	 p.addEventListener("click",()=>{
+    //   document.getElementById("typesearch").value=city_names[i];
+	// })
+    //      showcities.append(p,line);
+    //  }
 
 
 
