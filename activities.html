@@ -7,8 +7,8 @@
     <title>Document</title>
    <link rel="stylesheet" href="./css/explore.css">
    <link rel="stylesheet" href="./css/popup.css">
-   <link rel="stylesheet" href="./css/">
-   <link rel="stylesheet" href="./styles/footer.css">
+      <link rel="stylesheet" href="./styles/footer.css">
+	  <link rel="stylesheet" href="styles/activity.css">
 </head>
 <body>
     <div id="explorenavbar" style="height: 50px; margin-bottom: 50px;">
@@ -32,8 +32,11 @@
         <div id="searchbar" style="margin-bottom: 25px;">
             <input type="text" id="typesearch" placeholder="Type a city" style="border: 1px solid grey; border-top-left-radius: 2px; border-top-right-radius: 2px;">
             <button id="searchbtn" >Detect</button>
+			
         </div>
-
+        <div id="suggest">
+			<p>Hyderabad</p>
+	</div>
      <div id="citynames" style="margin-bottom: 110px; border: 1px solid rgb(214, 212, 212); padding: 20px; box-sizing: border-box; border-radius: 2px; color: #424242;">
      <p>All citiies</p>
      <hr>
@@ -564,20 +567,53 @@ city_names.map(function(e,i){
          window.location.href = "explore.html";
 			}
     
+
+
 //debounce feature start here
+
+let debounce = debounceFun()
 let inputTag = document.getElementById("typesearch")
 inputTag.addEventListener("keyup",()=>{
-	let id;
-let value = document.getElementById("typesearch").value
-if(id){
-	console.log("done");
-	clearTimeout(id);
-}
-id=setTimeout(()=>{
-console.log(value);
-},2000)
-})
+	debounce(event.target.value);
+ })
 
+ function debounceFun(){
+	let id;
+ return function(value){
+if(id){clearTimeout(id);}
+  id=setTimeout(()=>{
+   fetchData(value); 
+ },2000)	
+ };
+}
+async function fetchData(value){
+	let response =await fetch(`https://crazy-wasp-cape.cyclic.app/cities?q=${value}`);
+	let data =await response.json();
+	//console.log(data);
+	let uniqueCity= new Set();
+
+	data.map(function(e){
+     uniqueCity.add(e.city);
+	})
+	//console.log(uniqueCity);
+
+    uniqueCity.map=function map(){
+		var showcities=document.querySelector("#suggest");
+		showcities.innerHTML="";
+		for (var v of this.values()){
+         var p=document.createElement("p");
+	     var line=document.createElement("hr");
+         p.innerText=v;
+		 p.addEventListener("click",()=>{
+			cityName(v);
+	})
+	showcities.append(p,line);
+		}
+	}
+	
+
+	 uniqueCity.map();
+}
 	//  popupstartshere-----------------------
 // var modal = document.getElementById("myModal");
 // var modal1=document.getElementById("myModal1")
